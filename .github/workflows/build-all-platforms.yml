@@ -1,7 +1,7 @@
-name: Build Windows EXE as Folder
+name: Build Windows Folder (onedir)
 
 on:
-  workflow_dispatch:   # ручной запуск
+  workflow_dispatch:          # только ручной запуск, чтобы не собиралось при каждом коммите
 
 jobs:
   build:
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -20,21 +20,31 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4 pyinstaller
+          # Если в коде используются асинхронные библиотеки — раскомментируй/добавь:
+          # pip install aiohttp aiofiles
 
-      - name: Build exe as folder
+      - name: Build as folder (no --onefile)
         run: |
           pyinstaller `
-            --name DomenParser `
-            --add-data "dates.txt;." `
+            --name AsyncDomenParser `
+            --add-data "day.txt;." `
+            --add-data "links.txt;." `
             --add-data "webhook.txt;." `
-            --add-data "2026-02-13.txt;." `
-            --add-data "2026-02-14.txt;." `
-            --add-data "2026-02-15.txt;." `
-            Parser.py
+            --add-data "thread_1.txt;." `
+            --add-data "thread_2.txt;." `
+            --add-data "thread_3.txt;." `
+            --add-data "thread_4.txt;." `
+            --add-data "thread_5.txt;." `
+            --add-data "thread_6.txt;." `
+            --add-data "thread_7.txt;." `
+            --add-data "thread_8.txt;." `
+            --add-data "thread_9.txt;." `
+            --add-data "thread_10.txt;." `
+            main.py
 
-      - name: Upload folder artifact
+      - name: Upload the entire folder as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DomenParser-windows-folder
-          path: dist/DomenParser/**
+          name: AsyncDomenParser-windows-folder
+          path: dist/AsyncDomenParser/**
           if-no-files-found: error
