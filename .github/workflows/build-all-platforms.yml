@@ -1,0 +1,40 @@
+name: Build Windows EXE as Folder
+
+on:
+  workflow_dispatch:   # ручной запуск
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pyinstaller
+
+      - name: Build exe as folder
+        run: |
+          pyinstaller `
+            --name DomenParser `
+            --add-data "dates.txt;." `
+            --add-data "webhook.txt;." `
+            --add-data "2026-02-13.txt;." `
+            --add-data "2026-02-14.txt;." `
+            --add-data "2026-02-15.txt;." `
+            Parser.py
+
+      - name: Upload folder artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DomenParser-windows-folder
+          path: dist/DomenParser/**
+          if-no-files-found: error
