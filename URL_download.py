@@ -45,10 +45,10 @@ def download_url_list(date):
             f.write(response.content)
         print(f"downloaded → {filename}  ({len(response.content) / 1024 / 1024:.1f} MB)")
         with zipfile.ZipFile(resource_path(f"nrd-{date}.zip"), "r") as zip_ref:
-            zip_ref.extractall()  # → в текущую директорию
+            zip_ref.extractall(resource_path(""))  # → в текущую директорию
         print(f"nrd-{date}.zip unziped in domain-names.txt")
         os.remove(resource_path(f"nrd-{date}.zip"))
-        os.rename(resource_path(f"domain-names.txt"), "links.txt")
+        os.rename(resource_path(f"domain-names.txt"), resource_path("links.txt"))
         print(f"nrd-{date}.zip deleted")
         print("domain-names.txt renamed in links.txt")
     else:
