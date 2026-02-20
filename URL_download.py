@@ -48,9 +48,9 @@ def download_url_list(date):
             zip_ref.extractall()  # → в текущую директорию
         print(f"nrd-{date}.zip unziped in domain-names.txt")
         os.remove(resource_path(f"nrd-{date}.zip"))
-        os.rename(resource_path(f"domain-names.txt"), "new_links.txt")
+        os.rename(resource_path(f"domain-names.txt"), "links.txt")
         print(f"nrd-{date}.zip deleted")
-        print("domain-names.txt renamed in new_links.txt")
+        print("domain-names.txt renamed in links.txt")
     else:
         print("error:", response.status_code)
 def check_url_list():
@@ -77,5 +77,5 @@ def check_url_list():
 
 if __name__ == '__main__':
     date = check_url_list()
-    date = '2026-02-14'
+    date = '2026-02-20'
     download_url_list(date)

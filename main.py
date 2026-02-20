@@ -54,11 +54,7 @@ def main():
         if yesterday == date:
             # Загружаем новые ссылки и записываем их в общий список
             URL_download.download_url_list(date)
-            new_links = URL_download.links_read('new_links')
-            URL_download.links_write(new_links, 'links')
-            print('new_links appended to links')
-            os.remove('new_links.txt')
-            print('new_links deleted')
+            print('new_links downloaded')
         else:
             print('data does not download on website')
 
